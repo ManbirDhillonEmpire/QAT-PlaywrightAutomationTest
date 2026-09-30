@@ -10,15 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+
+    # Set up Java 21 on the Ubuntu runner
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
     - name: Install dependencies
       run: npm ci
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: ./run-tests.sh -Dbrowser=webkit -Ddevice=iPhone_13 -Dcucumber.filter.tags="FR"
+
+    - name: Run Playwright tests - Regression
+      run: ./run-tests.sh
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
