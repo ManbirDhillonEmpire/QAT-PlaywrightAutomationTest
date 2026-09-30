@@ -28,8 +28,17 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
-    - name: Run Playwright tests - Regression
-      run: ./run-tests.sh
+    - name: Run Playwright tests - Regression - Firefox Eng 
+      run: ./run-tests.sh -Dbrowser=firefox -Ddevice="Desktop" -Dcucumber.filter.tags="@EN"
+
+    - name: Run Playwright tests - Regression - Firefox - Fr 
+      run: ./run-tests.sh -Dbrowser=firefox -Ddevice="Desktop" -Dcucumber.filter.tags="@FR"
+
+    - name: Run Playwright tests - Regression - Firefox - Mobile - EN 
+      run: ./run-tests.sh -Dbrowser=firefox -Ddevice="iPhone 13 Pro" -Dcucumber.filter.tags="@EN"
+
+    - name: Run Playwright tests - Regression - Firefox - Mobile - FR
+      run: ./run-tests.sh -Dbrowser=firefox -Ddevice="iPhone 13 Pro" -Dcucumber.filter.tags="@FR"
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
